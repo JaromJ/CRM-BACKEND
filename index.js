@@ -417,6 +417,8 @@ app.put("/transactions/:id", auth, async (req, res) => {
       }
     }
 
+
+    
     const updated = await prisma.transaction.update({
       where: { id },
       data: {
