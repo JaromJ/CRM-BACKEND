@@ -289,14 +289,18 @@ app.post("/transactions", auth, async (req, res) => {
       return res.status(400).json({ message: "INCOME needs toAccountId" });
     }
 
-    if ((type === "EXPENSE" || type === "WITHDRAW") && !fromAccountId) {
-      return res.status(400).json({
-        message: `${type} needs fromAccountId`
-      });
+    if (type === "EXPENSE" && !fromAccountId) {
+      return res.status(400).json({ message: "EXPENSE needs fromAccountId" });
     }
 
     if (type === "TRANSFER" && (!fromAccountId || !toAccountId)) {
       return res.status(400).json({ message: "TRANSFER needs both accounts" });
+    }
+
+    if (type === "WITHDRAW" && !fromAccountId) {
+      return res.status(400).json({
+        message: "WITHDRAW needs fromAccountId"
+      });
     }
 
     // 🔥 CATEGORY LOGIC
@@ -388,9 +392,13 @@ app.put("/transactions/:id", auth, async (req, res) => {
       return res.status(400).json({ message: "INCOME needs toAccountId" });
     }
 
-    if ((type === "EXPENSE" || type === "WITHDRAW") && !fromAccountId) {
+    if (type === "EXPENSE" && !fromAccountId) {
+      return res.status(400).json({ message: "EXPENSE needs fromAccountId" });
+    }
+
+    if (type === "WITHDRAW" && !fromAccountId) {
       return res.status(400).json({
-        message: `${type} needs fromAccountId`
+        message: "WITHDRAW needs fromAccountId"
       });
     }
 
@@ -417,8 +425,6 @@ app.put("/transactions/:id", auth, async (req, res) => {
       }
     }
 
-
-    
     const updated = await prisma.transaction.update({
       where: { id },
       data: {
@@ -492,7 +498,7 @@ app.get("/dashboard", auth, async (req, res) => {
     const totalIncome = await prisma.transaction.aggregate({
       _sum: { amount: true },
       where: {
-        type: "INCOME"
+        type: { in: ["EXPENSE", "WITHDRAW"] }
       }
     });
 
