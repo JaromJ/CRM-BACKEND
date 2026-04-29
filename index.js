@@ -103,10 +103,7 @@ const getBalance = async (accountId) => {
 // // Get logged-in admin profile
 app.get("/profile", async (req, res) => {
   try {
-    const admin = await prisma.admin.findUnique({
-      where: {
-        id: req.adminId
-      },
+    const admin = await prisma.admin.findMany({
       select: {
         id: true,
         email: true,
