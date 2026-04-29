@@ -289,8 +289,10 @@ app.post("/transactions", auth, async (req, res) => {
       return res.status(400).json({ message: "INCOME needs toAccountId" });
     }
 
-    if (type === "EXPENSE" && !fromAccountId) {
-      return res.status(400).json({ message: "EXPENSE needs fromAccountId" });
+    if ((type === "EXPENSE" || type === "WITHDRAW") && !fromAccountId) {
+      return res.status(400).json({
+        message: `${type} needs fromAccountId`
+      });
     }
 
     if (type === "TRANSFER" && (!fromAccountId || !toAccountId)) {
@@ -386,8 +388,10 @@ app.put("/transactions/:id", auth, async (req, res) => {
       return res.status(400).json({ message: "INCOME needs toAccountId" });
     }
 
-    if (type === "EXPENSE" && !fromAccountId) {
-      return res.status(400).json({ message: "EXPENSE needs fromAccountId" });
+    if ((type === "EXPENSE" || type === "WITHDRAW") && !fromAccountId) {
+      return res.status(400).json({
+        message: `${type} needs fromAccountId`
+      });
     }
 
     if (type === "TRANSFER" && (!fromAccountId || !toAccountId)) {

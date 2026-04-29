@@ -73,4 +73,5 @@ enum TransactionType {
   INCOME
   EXPENSE
   TRANSFER
+  WITHDRAW
 }
