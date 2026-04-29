@@ -118,9 +118,7 @@ app.get("/profile", async (req, res) => {
         message: "Admin not found"
       });
     }
-
     res.json(admin);
-
   } catch (err) {
     res.status(500).json({
       error: err.message
