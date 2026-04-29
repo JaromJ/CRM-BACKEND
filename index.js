@@ -101,32 +101,32 @@ const getBalance = async (accountId) => {
 /* ================= PROFILE ================= */
 
 // // Get logged-in admin profile
-// app.get("/profile", auth, async (req, res) => {
-//   try {
-//     const admin = await prisma.admin.findUnique({
-//       where: {
-//         id: req.adminId
-//       },
-//       select: {
-//         id: true,
-//         email: true,
-//       }
-//     });
+app.get("/profile", async (req, res) => {
+  try {
+    const admin = await prisma.admin.findUnique({
+      where: {
+        id: req.adminId
+      },
+      select: {
+        id: true,
+        email: true,
+      }
+    });
 
-//     if (!admin) {
-//       return res.status(404).json({
-//         message: "Admin not found"
-//       });
-//     }
+    if (!admin) {
+      return res.status(404).json({
+        message: "Admin not found"
+      });
+    }
 
-//     res.json(admin);
+    res.json(admin);
 
-//   } catch (err) {
-//     res.status(500).json({
-//       error: err.message
-//     });
-//   }
-// });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
 
 /* ================= CATEGORY ================= */
 
